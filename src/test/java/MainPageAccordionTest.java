@@ -15,24 +15,23 @@ public class MainPageAccordionTest {
 
     private static WebDriver driver;
 
-    //создаем браузер
+    // Создаем браузер перед каждым тестом
     @Before
     public void before() {
         driver = SelectBrowser.selectDriverBrowser(BROWSER_NAME);
     }
 
-    //поля класса
+    // Параметры теста
     private final String question;
     private final String answer;
 
-    //конструктор класса
+    // Конструктор
     public MainPageAccordionTest(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
 
     @Parameterized.Parameters
-
     public static Object[][] testDataAccordion() {
         return new Object[][] {
                 {"Сколько это стоит? И как оплатить?", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
@@ -50,14 +49,18 @@ public class MainPageAccordionTest {
     public void testAccordion() {
         driver.get(MAIN_PAGE_URL);
         MainPage mainPage = new MainPage(driver);
-        mainPage.closeCookie(); //принимаем сообщение о куки
-        mainPage.howMuchCostQuestionClick(question); //кликаем на вопрос
-        assertTrue(mainPage.answerIsDisplayed(answer)); //сравниваем ответ
-        driver.quit();
+        mainPage.closeCookie(); // Принимаем сообщение о куки
+        mainPage.howMuchCostQuestionClick(question); // Кликаем на вопрос
+        assertTrue(mainPage.answerIsDisplayed(answer)); // Проверяем ответ
+        // Удалил driver.quit() из теста, он будет закрыт в @After
     }
 
     @After
-    public void after(){
-        driver.quit();
+    public void after() {
+        // Постусловие: закрываем браузер
+        if (driver != null) {
+            driver.quit();
+            driver = null; // Обнуляем ссылку, чтобы избежать повторных вызовов
+        }
     }
 }

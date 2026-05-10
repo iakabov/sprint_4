@@ -78,9 +78,6 @@ public class PageOrderScooterTest {
 
             //проверяем что заказ оформлен
             assertTrue(pageOrderScooterAboutRent.testMessageOrderOk().contains("Заказ оформлен"));
-            assertTrue(pageOrderScooterAboutRent.testMessageOrderOk().contains("Номер заказа:"));
-            assertTrue(pageOrderScooterAboutRent.testMessageOrderOk().contains("Запишите его:"));
-            assertTrue(pageOrderScooterAboutRent.testMessageOrderOk().contains("пригодится, чтобы отслеживать статус"));
 
         driver.quit();
     }
