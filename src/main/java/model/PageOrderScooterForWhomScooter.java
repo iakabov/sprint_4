@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 public class PageOrderScooterForWhomScooter {
 
     private WebDriver driver;
@@ -64,7 +66,7 @@ public class PageOrderScooterForWhomScooter {
 
     //Закрыть куки
     public void closeCokie() {
-        new WebDriverWait(driver, 3)
+        new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.elementToBeClickable(closeCookie));
         driver.findElement(closeCookie).click();
     }
@@ -72,7 +74,7 @@ public class PageOrderScooterForWhomScooter {
     //Нажать кнопку "Далее"
     public void pushButtonNext() {
         //Ждем 3 секунды
-        new WebDriverWait(driver, 3)
+        new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.elementToBeClickable(buttonNext));
         driver.findElement(buttonNext).click();
     }

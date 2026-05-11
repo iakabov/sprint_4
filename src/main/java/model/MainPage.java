@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 public class MainPage {
 
     private WebDriver driver;
@@ -25,7 +27,7 @@ public class MainPage {
 
     //принимаем куки и закрываем всплывающее окно
     public void closeCookie() {
-        new WebDriverWait(driver, 3)
+        new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.elementToBeClickable(closeCookie));
         driver.findElement(closeCookie).click();
     }

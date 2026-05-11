@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class PageOrderScooterAboutRent {
@@ -34,7 +35,7 @@ public class PageOrderScooterAboutRent {
 
     //метод подтверждения перехода на страницу "Про аренду"
     public boolean testPageAboutRentIsDisplayed(){
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         boolean isVisible = driver.findElement(titlePageAboutRent).isDisplayed();
         return isVisible;
     }
@@ -67,13 +68,13 @@ public class PageOrderScooterAboutRent {
 
     //нажать кнопку "Да"
     public void testByttonYesOrder() {
-        new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(buttonYesOrder));
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(buttonYesOrder));
         driver.findElement(buttonYesOrder).click();
     }
 
     //проверяем что заказ оформлен
     public String testMessageOrderOk() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(messageOrderOk));
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(messageOrderOk));
         String textMessage = driver.findElement(messageOrderOk).getText();
         return textMessage;
     }
