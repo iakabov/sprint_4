@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(Parameterized.class)
 public class MainPageAccordionTest {
     private static final String MAIN_PAGE_URL = "https://qa-scooter.praktikum-services.ru/"; //главная страница
-    private static final String BROWSER_NAME = "Chrome"; //задаем браузер в котором будем работать
+    private static final String BROWSER_NAME = "Firefox"; //задаем браузер в котором будем работать
 
     private static WebDriver driver;
 
