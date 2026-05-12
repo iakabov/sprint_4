@@ -11,32 +11,30 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class MainPageButtonOrderTest {
-    private static final String MAIN_PAGE_URL = "https://qa-scooter.praktikum-services.ru/"; //главная станица
-    private static final String BROWSER_NAME = "Chrome"; //задаем браузер Chrome или Firefox
+    private static final String MAIN_PAGE_URL = "https://qa-scooter.praktikum-services.ru/"; //главная страница
+    private static final String BROWSER_NAME = "Firefox"; // задаем браузер Chrome или Firefox
 
-    private static WebDriver driver;
+    private WebDriver driver; // Сделал не static, чтобы каждый тест использовал свой экземпляр
 
-    //создаем браузер
-    @Before
-    public void before() {
-        driver = SelectBrowser.selectDriverBrowser(BROWSER_NAME);
-    }
-
-    //поля класса
+    // поле для выбора кнопки
     private final String selectButton;
 
-    //конструктор класса
+    // конструктор
     public MainPageButtonOrderTest(String selectButton){
         this.selectButton = selectButton;
     }
 
     @Parameterized.Parameters
-
     public static Object[][] dataTestButtonOrder() {
         return new Object[][]{
                 {"Проверить верхнюю кнопку"},
                 {"Проверить нижнюю кнопку"},
         };
+    }
+
+    @Before
+    public void before() {
+        driver = SelectBrowser.selectDriverBrowser(BROWSER_NAME);
     }
 
     @Test
@@ -45,19 +43,22 @@ public class MainPageButtonOrderTest {
         MainPage mainPage = new MainPage(driver);
         PageOrderScooterForWhomScooter pageOrderScooterForWhomScooter = new PageOrderScooterForWhomScooter(driver);
         mainPage.closeCookie();
+
         if (selectButton.equals("Проверить верхнюю кнопку")) {
             mainPage.clickButtonOrderInTheHeader();
         } else if (selectButton.equals("Проверить нижнюю кнопку")) {
             mainPage.clickButtonOrderAtTheBottom();
         } else {
             throw new RuntimeException("Введите: Проверить верхнюю(или нижнюю) кнопку");
-        };
-        assertTrue(pageOrderScooterForWhomScooter.pageIsDisplayed()); //проверили, что перешли в окно оформления заказа
-        driver.quit();
+        }
+
+        assertTrue(pageOrderScooterForWhomScooter.pageIsDisplayed()); // проверили, что перешли в окно оформления заказа
     }
 
     @After
-    public void after(){
-        driver.quit();
+    public void after() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }

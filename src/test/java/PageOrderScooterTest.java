@@ -16,13 +16,7 @@ public class PageOrderScooterTest {
 
     private WebDriver driver;
 
-    //создаем браузер
-    @Before
-    public void before() {
-        driver = SelectBrowser.selectDriverBrowser(BROWSER_NAME);
-    }
-
-    //поля класса
+    // поля класса
     private final String name;
     private final String lastName;
     private final String address;
@@ -33,7 +27,7 @@ public class PageOrderScooterTest {
     private final String colorScooter;
     private final String comment;
 
-    //конструктор класса
+    // конструктор класса
     public PageOrderScooterTest(String name, String lastName, String address, String metroStation, String phone,
                                 String date, String rentalPeriod, String colorScooter, String comment) {
         this.name = name;
@@ -47,43 +41,51 @@ public class PageOrderScooterTest {
         this.comment = comment;
     }
 
-     //тестовые данные
-     @Parameterized.Parameters
-     public static Object[][] getTestData() {
-         return new Object[][]{
-                 {"Александр", "Иванов", "город Москва", "ВДНХ", "+79101112233", "01.01.2025", "сутки", "black", "Мой комментарий"},
-                 {"Сергей", "Петров", "улица Ленина", "ЗИЛ", "+79205556677", "31.12.2024", "трое суток", "grey", "Без комментариев"},
-         };
-     }
+    // тестовые данные
+    @Parameterized.Parameters
+    public static Object[][] getTestData() {
+        return new Object[][]{
+                {"Александр", "Иванов", "город Москва", "ВДНХ", "+79101112233", "01.01.2025", "сутки", "black", "Мой комментарий"},
+                {"Сергей", "Петров", "улица Ленина", "ЗИЛ", "+79205556677", "31.12.2024", "трое суток", "grey", "Без комментариев"},
+        };
+    }
+
+    @Before
+    public void before() {
+        driver = SelectBrowser.selectDriverBrowser(BROWSER_NAME);
+    }
 
     @Test
     public void testMakingOrder() {
         driver.get(ORDER_PAGE_URL);
         PageOrderScooterForWhomScooter pageOrderScooterForWhomScooter = new PageOrderScooterForWhomScooter(driver);
-            pageOrderScooterForWhomScooter.closeCokie(); // закрываем куки
-            pageOrderScooterForWhomScooter.testFieldName(name); //заполняем поле "имя" значением из тестового набора
-            pageOrderScooterForWhomScooter.testFieldLastName(lastName); //заполняем поле "фамилия" значением из тестового набора
-            pageOrderScooterForWhomScooter.testFieldAddress(address); //заполняем поле "адрес"
-            pageOrderScooterForWhomScooter.testFieldMetroStation(metroStation); //заполняем поле "станция метро"
-            pageOrderScooterForWhomScooter.testFieldPhone(phone); //заполняем поле "телефон"
-            pageOrderScooterForWhomScooter.pushButtonNext();// нажимаем кнопку "Далее"
-        PageOrderScooterAboutRent pageOrderScooterAboutRent = new PageOrderScooterAboutRent(driver); //создаем объект страницы "про аренду"
-            pageOrderScooterAboutRent.testPageAboutRentIsDisplayed(); //проверяем переход на страницу "про аренду"
-            pageOrderScooterAboutRent.testFieldDeliveryDate(date); //заполняем поле "дата доставки"
-            pageOrderScooterAboutRent.testFieldRentalPeriod(rentalPeriod); //заполняем поле "срок аренды"
-            pageOrderScooterAboutRent.testFieldColorScooter(colorScooter); //выбираем цвет самоката
-            pageOrderScooterAboutRent.testComment(comment); //заполняем поле "комментарий
-            pageOrderScooterAboutRent.testButtonOrder(); //нажимаем кнопку "Заказать"
-            pageOrderScooterAboutRent.testByttonYesOrder(); //нажимаем кнопку "Да"
+        pageOrderScooterForWhomScooter.closeCokie(); // закрываем куки
+        pageOrderScooterForWhomScooter.testFieldName(name);
+        pageOrderScooterForWhomScooter.testFieldLastName(lastName);
+        pageOrderScooterForWhomScooter.testFieldAddress(address);
+        pageOrderScooterForWhomScooter.testFieldMetroStation(metroStation);
+        pageOrderScooterForWhomScooter.testFieldPhone(phone);
+        pageOrderScooterForWhomScooter.pushButtonNext();
 
-            //проверяем что заказ оформлен
-            assertTrue(pageOrderScooterAboutRent.testMessageOrderOk().contains("Заказ оформлен"));
+        PageOrderScooterAboutRent pageOrderScooterAboutRent = new PageOrderScooterAboutRent(driver);
+        pageOrderScooterAboutRent.testPageAboutRentIsDisplayed();
+        pageOrderScooterAboutRent.testFieldDeliveryDate(date);
+        pageOrderScooterAboutRent.testFieldRentalPeriod(rentalPeriod);
+        pageOrderScooterAboutRent.testFieldColorScooter(colorScooter);
+        pageOrderScooterAboutRent.testComment(comment);
+        pageOrderScooterAboutRent.testButtonOrder();
+        pageOrderScooterAboutRent.testByttonYesOrder();
 
-        driver.quit();
+        // проверяем что заказ оформлен
+        assertTrue(pageOrderScooterAboutRent.testMessageOrderOk().contains("Заказ оформлен"));
+
+        // driver.quit(); // Удалено, закрытие в after()
     }
 
     @After
     public void after() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
